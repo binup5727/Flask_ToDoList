@@ -1,1 +1,1 @@
-{"tasks": ["Go to walmart", "Do the dishes", "Put clothes in Drier"]}
+{"tasks": ["Do the dishes"]}
