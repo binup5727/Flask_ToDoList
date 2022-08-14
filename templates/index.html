@@ -1,0 +1,58 @@
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+
+    <form action="" method="post">
+
+        {{form.hidden_tag()}}
+        {{form.task.label}} {{form.task()}}
+        {{form.add()}}
+    </form>
+    <ol id="tasks">
+        
+        {% for task in tasks %}
+            <li class="item" onclick="del('{{task}}')">
+                {{task}}
+            </li>
+        {% endfor %}
+    </ol>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{{super()}}
+<script>
+   
+
+    const del = function (task){
+        
+        const xml = new XMLHttpRequest()
+        const tasksEl = document.querySelector('#tasks')
+       
+        xml.onload = () => {
+            let res = JSON.parse(xml.response)
+            tasksEl.innerHTML = ''
+            res.tasks.forEach(element => {
+                let el = document.createElement('li');
+                
+                el.innerHTML = element;
+                el.setAttribute('onclick', 'del(' + "'" + element + "'" + ')')
+                tasksEl.appendChild(el);
+
+            });
+            
+            
+        };
+        
+        xml.open('DELETE', "{{url_for('index')}}" + 'delete/' + task);
+        xml.send();
+    
+    }
+</script>
+
+{% endblock %}
+
+
+
